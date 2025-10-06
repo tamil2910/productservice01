@@ -3,6 +3,8 @@ package com.example.productservice01.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +27,9 @@ public class ProductController {
   }
 
   @GetMapping("/{id}")
-  public Product getProductById(@PathVariable("id") Long productId) {
-    return this.productService.getSingleProduct(productId);
+  public ResponseEntity<Product> getProductById(@PathVariable("id") Long productId) {
+    ResponseEntity<Product> response = new ResponseEntity<>(this.productService.getSingleProduct(productId), HttpStatus.FORBIDDEN);
+    return response;
   }
 
   @GetMapping("")

@@ -10,6 +10,7 @@ import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.productservice01.dtos.FakeStoreDto;
+import com.example.productservice01.exception.ProductNotFoundException;
 import com.example.productservice01.models.Category;
 import com.example.productservice01.models.Product;
 
@@ -28,6 +29,10 @@ public class FakeStoreService implements ProductService{
   public Product getSingleProduct(Long id) {
     String urlById = "https://fakestoreapi.com/products" + "/" + id;
     FakeStoreDto fakeStoreDto = this.restTemplate.getForObject(urlById, FakeStoreDto.class);
+
+    if (fakeStoreDto == null) {
+      throw new ProductNotFoundException("Product by id " + id + " not found");
+    }
 
     return this.convertFakeStoreDtoToProduct(fakeStoreDto);
   }
